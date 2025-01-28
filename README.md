@@ -2,6 +2,9 @@
 
 Azure Key Vault security features.
 
+> [!TIP]
+> Virtual Machine encryption options are implemented in the https://github.com/epomatti/azure-linux-security repository.
+
 ## Deployment
 
 Start by creating the temporary keys for SSH authentication:
