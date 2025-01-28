@@ -5,18 +5,25 @@
     "dictionaries": [],
     "words": [
         "azurerm",
+        "azureuser",
         "bigbank",
         "contoso",
         "entraid",
         "hashicorp",
+        "linux",
         "litware",
         "mssql",
+        "noninteractive",
         "onmicrosoft",
+        "osdisk",
         "sqladmin",
         "sqldeveloper",
         "sqls",
+        "terraformrc",
+        "tfstate",
         "versionless",
-        "vnet"
+        "vnet",
+        "vtpm"
     ],
     "ignoreWords": [],
     "import": []
