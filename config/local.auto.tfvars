@@ -20,7 +20,7 @@ vm_admin_username  = "azureuser"
 vm_public_key_path = ".keys/tmp_rsa.pub"
 vm_size            = "Standard_B2ls_v2"
 
-vm_identity_type        = "UserAssigned"           # SystemAssigned, UserAssigned
+vm_identity_type        = "UserAssigned"           # Options: "SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"
 vm_role_definition_name = "Key Vault Secrets User" # The role assigned to the VM identity
 
 vm_image_publisher = "canonical"
