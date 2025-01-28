@@ -1,0 +1,23 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "azurerm",
+        "bigbank",
+        "contoso",
+        "entraid",
+        "hashicorp",
+        "litware",
+        "mssql",
+        "onmicrosoft",
+        "sqladmin",
+        "sqldeveloper",
+        "sqls",
+        "versionless",
+        "vnet"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
