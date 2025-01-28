@@ -38,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   identity {
     type         = var.vm_identity_type
-    identity_ids = [var.user_assigned_identity_id]
+    identity_ids = var.vm_identity_type == "UserAssigned" ? [var.user_assigned_identity_id] : null
   }
 
   admin_ssh_key {
