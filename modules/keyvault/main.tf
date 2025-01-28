@@ -15,8 +15,7 @@ resource "random_string" "application_secret" {
 }
 
 resource "azurerm_key_vault" "default" {
-  #FIXME: 
-  name                = "kv-${var.workload}${random_string.random.result}"
+  name                = "kv-${var.workload}-${random_string.random.result}"
   location            = var.location
   resource_group_name = var.group
   tenant_id           = data.azurerm_client_config.current.tenant_id

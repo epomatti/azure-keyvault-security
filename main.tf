@@ -12,7 +12,7 @@ terraform {
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = "rg-${var.workload}"
+  name     = "rg-${var.workload}-default"
   location = var.location
 }
 
@@ -69,8 +69,7 @@ module "permissions" {
   vm_role_definition_name  = var.vm_role_definition_name
 }
 
-# FIXME: 
-module "privatelink_aml" {
+module "private_endpoints" {
   source                      = "./modules/private-link"
   resource_group_name         = azurerm_resource_group.private_endpoints.name
   location                    = azurerm_resource_group.default.location
