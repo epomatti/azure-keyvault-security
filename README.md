@@ -19,8 +19,8 @@ cp config/local.auto.tfvars .auto.tfvars
 Set the required values:
 
 ```terraform
-subscription_id    = ""
-allowed_public_ips = [""]
+subscription_id            = ""
+public_ip_address_to_allow = [""]
 ```
 
 Create the infrastructure:
@@ -29,3 +29,13 @@ Create the infrastructure:
 terraform init
 terraform apply -auto-approve
 ```
+
+## VM Identity Operations
+
+Login to the CLI:
+
+```sh
+# Make sure to use "sudo"
+sudo az login --identity
+```
+

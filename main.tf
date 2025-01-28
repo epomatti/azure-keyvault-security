@@ -16,19 +16,26 @@ resource "azurerm_resource_group" "default" {
   location = var.location
 }
 
+resource "azurerm_resource_group" "private_endpoints" {
+  name     = "rg-${var.workload}-endpoints"
+  location = var.location
+}
+
 module "vnet" {
   source              = "./modules/vnet"
   workload            = var.workload
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
+  allowed_public_ips  = [var.public_ip_address_to_allow]
 }
 
 module "keyvault" {
-  source      = "./modules/keyvault"
-  workload    = var.workload
-  group       = azurerm_resource_group.default.name
-  location    = azurerm_resource_group.default.location
-  kv_sku_name = var.kv_sku_name
+  source               = "./modules/keyvault"
+  workload             = var.workload
+  group                = azurerm_resource_group.default.name
+  location             = azurerm_resource_group.default.location
+  kv_sku_name          = var.kv_sku_name
+  allowed_ip_addresses = [var.public_ip_address_to_allow]
 }
 
 resource "azurerm_user_assigned_identity" "vm" {
@@ -52,4 +59,21 @@ module "virtual_machine" {
   vm_image_offer     = var.vm_image_offer
   vm_image_sku       = var.vm_image_sku
   vm_image_version   = var.vm_image_version
+}
+
+module "permissions" {
+  source                   = "./modules/permissions"
+  key_vault_id             = module.keyvault.id
+  vm_identity_principal_id = azurerm_user_assigned_identity.vm.principal_id
+  vm_role_definition_name  = var.vm_role_definition_name
+}
+
+# FIXME: 
+module "privatelink_aml" {
+  source                      = "./modules/private-link"
+  resource_group_name         = azurerm_resource_group.private_endpoints.name
+  location                    = azurerm_resource_group.default.location
+  vnet_id                     = module.vnet.vnet_id
+  private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
+  keyvault_id                 = module.keyvault.id
 }

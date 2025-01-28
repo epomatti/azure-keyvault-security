@@ -19,6 +19,15 @@ resource "azurerm_key_vault" "default" {
   soft_delete_retention_days = 7
 
   enable_rbac_authorization = true
+
+  # Further controlled by network_acls below
+  public_network_access_enabled = true
+
+  network_acls {
+    default_action = "Deny"
+    ip_rules       = var.allowed_ip_addresses
+    bypass         = "AzureServices"
+  }
 }
 
 resource "azurerm_role_assignment" "current" {

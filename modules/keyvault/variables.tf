@@ -13,3 +13,7 @@ variable "workload" {
 variable "kv_sku_name" {
   type = string
 }
+
+variable "allowed_ip_addresses" {
+  type = list(string)
+}
