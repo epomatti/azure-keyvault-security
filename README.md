@@ -35,7 +35,14 @@ terraform apply -auto-approve
 Login to the CLI:
 
 ```sh
-# Make sure to use "sudo"
-sudo az login --identity
+az login --identity
 ```
 
+
+```sh
+az keyvault secret list --vault-name $kvn
+```
+
+```sh
+az keyvault secret show --vault-name $kvn --name ApplicationSecret --query value
+```

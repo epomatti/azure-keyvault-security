@@ -10,6 +10,10 @@ variable "resource_group_name" {
   type = string
 }
 
+variable "vm_identity_type" {
+  type = string
+}
+
 variable "vm_public_key_path" {
   type = string
 }

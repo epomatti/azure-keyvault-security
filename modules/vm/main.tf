@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
   identity {
-    type         = "UserAssigned"
+    type         = var.vm_identity_type
     identity_ids = [var.user_assigned_identity_id]
   }
 

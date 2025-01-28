@@ -7,7 +7,15 @@ resource "random_string" "random" {
   numeric = true
 }
 
+resource "random_string" "application_secret" {
+  length  = 15
+  special = true
+  upper   = true
+  numeric = true
+}
+
 resource "azurerm_key_vault" "default" {
+  #FIXME: 
   name                = "kv-${var.workload}${random_string.random.result}"
   location            = var.location
   resource_group_name = var.group
@@ -36,46 +44,28 @@ resource "azurerm_role_assignment" "current" {
   principal_id         = data.azurerm_client_config.current.object_id
 }
 
-# resource "azurerm_key_vault_key" "generated" {
-#   name         = "mssql-tde-key"
-#   key_vault_id = azurerm_key_vault.default.id
-#   key_type     = "RSA"
-#   key_size     = 2048
+resource "azurerm_key_vault_secret" "application_secret" {
+  name         = "ApplicationSecret"
+  value        = random_string.application_secret.result
+  key_vault_id = azurerm_key_vault.default.id
 
-#   key_opts = [
-#     "decrypt",
-#     "encrypt",
-#     "sign",
-#     "unwrapKey",
-#     "verify",
-#     "wrapKey",
-#   ]
+  depends_on = [azurerm_role_assignment.current]
+}
 
-#   rotation_policy {
-#     automatic {
-#       time_before_expiry = "P30D"
-#     }
-#     notify_before_expiry = "P29D"
-#     expire_after         = "P90D"
-#   }
+resource "azurerm_key_vault_key" "application_key" {
+  name         = "ApplicationKey"
+  key_vault_id = azurerm_key_vault.default.id
+  key_type     = "RSA"
+  key_size     = 2048
 
-#   depends_on = [azurerm_role_assignment.current]
-# }
+  key_opts = [
+    "decrypt",
+    "encrypt",
+    "sign",
+    "unwrapKey",
+    "verify",
+    "wrapKey",
+  ]
 
-# resource "azurerm_key_vault_key" "column_master_key" {
-#   name         = "mssql-column-master-key"
-#   key_vault_id = azurerm_key_vault.default.id
-#   key_type     = "RSA"
-#   key_size     = 2048
-
-#   key_opts = [
-#     "decrypt",
-#     "encrypt",
-#     "sign",
-#     "unwrapKey",
-#     "verify",
-#     "wrapKey",
-#   ]
-
-#   depends_on = [azurerm_role_assignment.current]
-# }
+  depends_on = [azurerm_role_assignment.current]
+}

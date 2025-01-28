@@ -25,6 +25,10 @@ variable "vm_admin_username" {
   type = string
 }
 
+variable "vm_identity_type" {
+  type = string
+}
+
 variable "vm_role_definition_name" {
   type = string
 }
