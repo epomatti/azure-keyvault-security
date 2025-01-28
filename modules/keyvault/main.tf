@@ -15,17 +15,21 @@ resource "random_string" "application_secret" {
 }
 
 resource "azurerm_key_vault" "default" {
-  name                = "kv-${var.workload}-${random_string.random.result}"
-  location            = var.location
-  resource_group_name = var.group
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-  sku_name            = var.kv_sku_name
+  name                      = "kv-${var.workload}-${random_string.random.result}"
+  location                  = var.location
+  resource_group_name       = var.group
+  tenant_id                 = data.azurerm_client_config.current.tenant_id
+  sku_name                  = var.keyvault_sku_name
+  enable_rbac_authorization = true
+
+  # Must the enabled for disk encryption
+  purge_protection_enabled = var.keyvault_purge_protection_enabled
+
+  # These are only required for Azure Disk Encryption (ADE) which are not covered in this project
+  enabled_for_disk_encryption = false
 
   # Required for CMK
-  purge_protection_enabled   = true
   soft_delete_retention_days = 7
-
-  enable_rbac_authorization = true
 
   # Further controlled by network_acls below
   public_network_access_enabled = true
@@ -54,8 +58,8 @@ resource "azurerm_key_vault_secret" "application_secret" {
 resource "azurerm_key_vault_key" "application_key" {
   name         = "ApplicationKey"
   key_vault_id = azurerm_key_vault.default.id
-  key_type     = "RSA"
-  key_size     = 2048
+  key_type     = var.keyvault_key_type
+  key_size     = var.keyvault_key_size
 
   key_opts = [
     "decrypt",

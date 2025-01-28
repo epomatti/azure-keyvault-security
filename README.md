@@ -2,8 +2,8 @@
 
 Azure Key Vault security features.
 
-> [!TIP]
-> Virtual Machine encryption options are implemented in the https://github.com/epomatti/azure-linux-security repository.
+> [!NOTE]
+> Virtual Machine encryption options are implemented in [this](https://github.com/epomatti/azure-linux-security) repository.
 
 ## Deployment
 
@@ -41,10 +41,13 @@ Login to the CLI:
 az login --identity
 ```
 
+List keys:
 
 ```sh
 az keyvault secret list --vault-name $kvn
 ```
+
+Show a secret value:
 
 ```sh
 az keyvault secret show --vault-name $kvn --name ApplicationSecret --query value

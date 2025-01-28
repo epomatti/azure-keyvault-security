@@ -30,12 +30,15 @@ module "vnet" {
 }
 
 module "keyvault" {
-  source               = "./modules/keyvault"
-  workload             = var.workload
-  group                = azurerm_resource_group.default.name
-  location             = azurerm_resource_group.default.location
-  kv_sku_name          = var.kv_sku_name
-  allowed_ip_addresses = [var.public_ip_address_to_allow]
+  source                            = "./modules/keyvault"
+  workload                          = var.workload
+  group                             = azurerm_resource_group.default.name
+  location                          = azurerm_resource_group.default.location
+  allowed_ip_addresses              = [var.public_ip_address_to_allow]
+  keyvault_purge_protection_enabled = var.keyvault_purge_protection_enabled
+  keyvault_sku_name                 = var.keyvault_sku_name
+  keyvault_key_type                 = var.keyvault_key_type
+  keyvault_key_size                 = var.keyvault_key_size
 }
 
 resource "azurerm_user_assigned_identity" "vm" {

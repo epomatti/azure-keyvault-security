@@ -16,7 +16,19 @@ variable "public_ip_address_to_allow" {
 }
 
 ### Key Vault ###
-variable "kv_sku_name" {
+variable "keyvault_purge_protection_enabled" {
+  type = bool
+}
+
+variable "keyvault_sku_name" {
+  type = string
+}
+
+variable "keyvault_key_type" {
+  type = string
+}
+
+variable "keyvault_key_size" {
   type = string
 }
 
